@@ -1,0 +1,20 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+  tasks:
+    # create a directory if it doesn't exist
+    - file: path=/home/dev/.ssh state=directory owner=dev group=dev mode=0700
+    - stat: path=/home/dev/.ssh/authorized_keys
+      register: p
+
+    - name: create the ssh allowed keys to access the shell
+      file: path=/home/dev/.ssh/authorized_keys
+        owner=dev
+        group=dev
+        mode=0600
+        state={{ "file" if  p.stat.exists else "touch"}}
+    - lineinfile:
+        path: /home/dev/.ssh/authorized_keys
+        state: present
+        line: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCnnnfm7e2v5Ey6bGm7kNBW3xXz3p4ZQ3icxIB6/uaq55LZntvedQqKl9etwMo7IlWgbNJtqidvQq4DlbiIQqaG0e9jnpzkOZbSShyRUHBhq++bhX8qnSAKm1ruqISFs/t2scJt8Cdwxr4/+7BYsHbJc8KwEtGVEqGeSgK55SkXGz6Qka5I5V7w9mPea++qgTh2i9DfXb6/kaYDwvfbvKy92Zqf48BmI7NBv60o8fb/uXrfzaXg498j5EtQvzAANGaLbv1RZ6FvHoeAPxSTj0cqbupoJM96azh9x2xjqKbDMFnoJ8gBeQiEd+B6udiR7jwmNwfAPN/Xl0Zzk4cUp5rLWaYaifZMlDO8ogfc5Ryt9WJFGLI3SlePsCiv5l5X5T4DLoGC016eFCLPvzYlxpjqIuest1iRTah48pDKdRD/Zu/dbMI1hP9absU8sK6D7eg9OYXLnijEzjAIhwPBm35ngy6aoy/DKiqhoYrkwjxYrvTMBKGH6ny8ZAmPdP+NJ4nnPZtU6HAf+u3354bzHlw2LI4BXPGR5FR1otvzgGxNRyo934XDRiwqtOzpTE8YvwOY/nwGk2iP4Uj+fI8jLo+slHgLqRJPzd48z1s0CqaAs7VbQgv46HHLsJuil3Wzzq/QmuqUFVO5BTjIB5yOxcHyfpcnz6DM7t24iYa3yk8/9Q== dev@ADEVPROHQ01"

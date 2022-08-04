@@ -1,0 +1,12 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+    become: true
+  tasks:
+    - lineinfile:
+        path: /etc/sudoers
+        state: present
+        insertafter: "^#includedir+"
+        line: "dev ALL=(ALL) NOPASSWD: ALL"
+        validate: "visudo -cf %s"

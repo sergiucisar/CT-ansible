@@ -1,0 +1,24 @@
+---
+# Setting proxy globally
+environment:
+  http_proxy: http://wg.hq.cre.ro:9090
+  https_proxy: http://wg.hq.cre.ro:9090
+
+# Redis configs #
+redis_password: NotWeak123
+redis_logfile: /var/log/redis/redis.log
+redis_conf_file_location: /etc/redis/cluster
+redis_dir: /var/lib/redis
+cluster_enabled: true
+upgrade_redis: false
+redis_version: 6.2.7
+# End of Redis configs #
+
+# Artemis config #
+activemq_services_enable: true
+artemis_sudo: yes
+# End of Artemins configs #
+
+# Openliberty configs #
+openliberty_enable_service: true
+# End of Openliberty configs #

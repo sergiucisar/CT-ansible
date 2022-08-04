@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+    become: true
+    become_user: root
+  roles:
+    - common

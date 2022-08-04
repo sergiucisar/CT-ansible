@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+    become: true
+  gather_facts: yes
+  tasks:
+    - name: ensure python3 is installed
+      dnf: name=python3 state=present

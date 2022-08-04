@@ -1,0 +1,16 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+  tasks:
+    - name: Lets look at some disks
+      become: false
+      gather_facts: false
+    - name: Collect only facts about hardware
+      setup:
+        gather_subset:
+        - hardware
+
+    - name: Output disks
+      debug:
+        var: hostvars[inventory_hostname].ansible_devices.keys() | map('regex_search', 'sd.*') | select('string') | list

@@ -1,0 +1,12 @@
+---
+- hosts: "{{ application_name }}"
+  vars:
+    ansible_user: dev
+    become: true
+    #become_user: root
+  gather_facts: yes
+  roles:
+    - { role: artemis, tags: ["never", "artemis"] }
+    - { role: openliberty, tags: ["never", "openliberty"] }
+    - { role: redis, tags: ["never", "redis"] }
+    - { role: java, tags: ["never", "java"] }

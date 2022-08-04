@@ -1,0 +1,21 @@
+---
+- hosts: all
+  vars:
+    ansible_user: dev
+  tasks:
+    - name: Gen privkey
+      openssl_privatekey:
+        path: /etc/ssl/redis-server.key
+        size: 2048
+
+    - name: Gen CSR
+      openssl_csr:
+        path: /etc/ssl/redis-server.csr
+        privatekey_path: /etc/ssl/redis-server.key
+
+    - name: Gen cert
+      openssl_certificate:
+        provider: selfsigned
+        path: /etc/ssl/redis-server.crt
+        privatekey_path: /etc/ssl/redis-server.key
+        csr_path: /etc/ssl/redis-server.csr
