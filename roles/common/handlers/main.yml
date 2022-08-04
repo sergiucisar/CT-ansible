@@ -1,0 +1,3 @@
+---
+- name: reboot host notification
+  debug: msg="Host {{ inventory_hostname }} needs to be rebooted due to sercurity patches!"

@@ -1,0 +1,2 @@
+export JAVA_HOME="{{ java_openjdk_default | ternary(java_openjdk_home, java_oracle_jdk8_home) }}"
+export PATH_TO_FX="{{ java_openjfx_home }}/lib"

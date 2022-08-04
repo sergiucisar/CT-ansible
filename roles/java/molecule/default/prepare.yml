@@ -1,0 +1,13 @@
+---
+- name: Prepare
+  hosts: ics-ans-role-java-and-maven
+  gather_facts: false
+  tasks:
+    - name: create an old installation directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - /opt/java/jdk-10.0.2
+        - /opt/java/javafx-sdk-11
+        - /opt/java/apache-maven-3.5.0

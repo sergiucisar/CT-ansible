@@ -1,0 +1,37 @@
+---
+dependency:
+  name: galaxy
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      ics-ans-role-java-default:
+        java_install_oracle_jdk8: false
+      ics-ans-role-java-and-oracle-jdk8:
+        java_install_oracle_jdk8: true
+      ics-ans-role-java-and-maven:
+        java_install_maven: true
+        java_install_oracle_jdk8: false
+      ics-ans-role-java-ubuntu:
+        java_install_maven: false
+        java_install_oracle_jdk8: false
+scenario:
+  name: default
+verifier:
+  name: testinfra
+driver:
+  name: docker
+platforms:
+  - name: ics-ans-role-java-default
+    image: centos:7
+  - name: ics-ans-role-java-and-oracle-jdk8
+    image: centos:7
+  - name: ics-ans-role-java-and-maven
+    image: centos:7
+  - name: ics-ans-role-java-ubuntu
+    image: ubuntu:18.04

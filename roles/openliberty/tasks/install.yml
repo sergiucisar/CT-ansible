@@ -1,0 +1,68 @@
+---
+# Install openliberty packages
+
+- name: unwanted packages are removed
+  package:
+    name: "{{ openliberty_packages_remove }}"
+    state: absent
+  become: true
+  when: openliberty_remove_packages
+
+- name: prereq repositories are installed
+  package:
+    name: "{{ openliberty_packages_repos }}"
+    state: "{{ openliberty_packages_state }}"
+  become: true
+
+- name: prereq packages are installed
+  package:
+    name: "{{ openliberty_packages_prereq }}"
+    state: "{{ openliberty_packages_state }}"
+  become: true
+
+- name: packages are installed
+  package:
+    name: "{{ openliberty_packages_install }}"
+    state: "{{ openliberty_packages_state }}"
+  become: true
+
+- name: Download Maven
+  get_url:
+    url: https://downloads.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+    dest: /tmp/
+
+- name: Unzip Maven
+  unarchive:
+    src: /tmp/apache-maven-3.8.5-bin.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: Create a Maven symbolic link
+  file:
+    src: "/opt/apache-maven-3.8.5"
+    dest: "/opt/maven"
+    state: link
+
+- name: Set maven ENV vars
+  copy: 
+    src: files/.bash_profile
+    dest: /home/ec2-user/.bash_profile
+    owner: ec2-user
+    group: ec2-user
+    mode: 0644
+
+- name: Install Git
+  yum:
+    name: git
+    state: present
+
+- name: Download Java  with check (sha256)
+  get_url:
+    url: https://github.com/ibmruntimes/semeru18-binaries/releases/download/jdk-18.0.1.1%2B2_openj9-0.32.0/ibm-semeru-open-18-jdk-18.0.1.1.2_0.32.0-1.x86_64.rpm
+    dest: /tmp/
+    checksum: sha256:afaa72a57b4d166e20dedc14ec6f34a9dc742ef57cf7adf9769f67594e2e1ae8
+
+- name: Make sure java semeru runtime is installed
+  yum:
+    name: /tmp/ibm-semeru-open-18-jdk-18.0.1.1.2_0.32.0-1.x86_64.rpm
+    state: present

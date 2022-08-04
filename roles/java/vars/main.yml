@@ -1,0 +1,11 @@
+---
+java_base: /opt/java
+java_openjdk_home: "{{ java_base }}/jdk-{{ java_openjdk_version }}"
+java_openjdk_bin: "{{ java_openjdk_home }}/bin/java"
+# Do not include "/lib" in java_openjfx_home variable because it's used
+# to clean previous installations
+java_openjfx_home: "{{ java_base }}/javafx-sdk-{{ java_openjfx_version }}"
+java_oracle_jdk8_home: "{{ java_base }}/jdk1.8.0_{{ java_oracle_jdk8_version }}"
+java_oracle_jdk8_bin: "{{ java_oracle_jdk8_home }}/jre/bin/java"
+java_maven_home: "{{ java_base }}/apache-maven-{{ java_maven_version }}"
+validate_certs: false

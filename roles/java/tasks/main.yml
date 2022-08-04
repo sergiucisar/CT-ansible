@@ -1,0 +1,97 @@
+---
+- name: install required dependencies for RedHat
+  yum:
+    name: unzip
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
+# update_cache is required but can't be passed to the package module
+- name: install required dependencies for Debian
+  apt:
+    name: unzip
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: create the java base directory
+  file:
+    path: "{{ java_base }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: install openjdk {{ java_openjdk_version }}
+  unarchive:
+    src: "{{ java_openjdk_archive }}"
+    dest: "{{ java_base }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ java_openjdk_home }}"
+
+- name: configure the JVM to use /dev/urandom instead of /dev/random
+  lineinfile:
+    state: present
+    path: "{{ java_openjdk_home }}/conf/security/java.security"
+    regexp: "^securerandom.source="
+    line: "securerandom.source=file:/dev/urandom"
+
+- name: install openjfx {{ java_openjfx_version }}
+  unarchive:
+    src: "{{ java_openjfx_archive }}"
+    dest: "{{ java_base }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ java_openjfx_home }}"
+
+- name: create java_env.sh file
+  template:
+    src: java_env.sh.j2
+    dest: /etc/profile.d/java_env.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: set openjdk {{ java_openjdk_version }} as default
+  alternatives:
+    name: "{{ item }}"
+    link: "/usr/bin/{{ item }}"
+    path: "{{ java_openjdk_home }}/bin/{{ item }}"
+  loop:
+    - java
+    - javac
+    - javadoc
+    - keytool
+    - jrunscript
+  when: java_openjdk_default
+  register: set_default_java
+  until: set_default_java is not failed
+  retries: 3
+
+- name: include tasks to install oracle jdk 8
+  include_tasks: oracle_jdk8.yml
+  when: java_install_oracle_jdk8
+
+- name: include tasks to install maven
+  include_tasks: maven.yml
+  when: java_install_maven
+
+- name: check all installations
+  find:
+    paths: "{{ java_base }}"
+    file_type: directory
+    recurse: false
+  register: find_installations
+
+- name: remove previous installations
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    - "{{ find_installations.files }}"
+  when:
+    - item.path != java_openjdk_home
+    - item.path != java_openjfx_home
+    - item.path != java_oracle_jdk8_home
+    - item.path != java_maven_home

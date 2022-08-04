@@ -1,0 +1,23 @@
+---
+- name: install maven
+  unarchive:
+    src: "{{ java_maven_archive }}"
+    dest: "{{ java_base }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ java_maven_home }}"
+
+- name: create mvn link
+  file:
+    src: "{{ java_maven_home }}/bin/mvn"
+    dest: /usr/bin/mvn
+    state: link
+
+- name: copy default maven configuration
+  copy:
+    src: settings.xml
+    dest: "{{ java_maven_home }}/conf/settings.xml"
+    owner: root
+    group: root
+    mode: 0644

@@ -1,0 +1,4 @@
+---
+- name: environment proxy config
+  template: src=environment.j2 dest=/etc/environment owner=root group=root mode=644
+  when: http_proxy is defined

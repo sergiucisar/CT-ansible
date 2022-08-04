@@ -1,0 +1,52 @@
+---
+- name: install oracle jdk 8
+  unarchive:
+    src: "{{ java_oracle_jdk8_archive }}"
+    dest: "{{ java_base }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ java_oracle_jdk8_home }}"
+
+- name: uncomment the crypto.policy setting
+  replace:
+    path: "{{ java_oracle_jdk8_home }}/jre/lib/security/java.security"
+    regexp: "^#crypto.policy=.*"
+    replace: "crypto.policy=unlimited"
+
+# If the above commented line didn't exist, this ensures
+# that the line is added to the file
+- name: set the crypto.policy to unlimited
+  lineinfile:
+    state: present
+    path: "{{ java_oracle_jdk8_home }}/jre/lib/security/java.security"
+    regexp: "^crypto.policy="
+    line: "crypto.policy=unlimited"
+
+- name: configure the JVM to use /dev/urandom instead of /dev/random
+  lineinfile:
+    state: present
+    path: "{{ java_oracle_jdk8_home }}/jre/lib/security/java.security"
+    regexp: "^securerandom.source="
+    line: "securerandom.source=file:/dev/urandom"
+
+- name: set oracle-jdk8 as default
+  alternatives:
+    name: "{{ item.exe }}"
+    link: "/usr/bin/{{ item.exe }}"
+    path: "{{ item.path }}/{{ item.exe }}"
+  loop:
+    - path: "{{ java_oracle_jdk8_home }}/jre/bin"
+      exe: java
+    - path: "{{ java_oracle_jdk8_home }}/jre/bin"
+      exe: keytool
+    - path: "{{ java_oracle_jdk8_home }}/bin"
+      exe: javac
+    - path: "{{ java_oracle_jdk8_home }}/bin"
+      exe: javadoc
+    - path: "{{ java_oracle_jdk8_home }}/bin"
+      exe: jrunscript
+  when: not java_openjdk_default
+  register: set_default_java
+  until: set_default_java is not failed
+  retries: 3

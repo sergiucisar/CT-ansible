@@ -1,0 +1,5 @@
+---
+- name: install default packages
+  yum:
+    name: ['vim','unzip','bash-completion','iotop','telnet','wget']
+    state: present

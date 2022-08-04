@@ -1,0 +1,24 @@
+---
+- name: disable selinux
+  selinux: state=disabled
+  notify:
+    -  reboot host notification
+  tags:
+    - security
+
+- name: disable selinux enforce
+  command: /sbin/setenforce 0
+  ignore_errors: yes
+
+- name: disable firewalld
+  service: name=firewalld enabled=no state=stopped
+  ignore_errors: not ansible_check_mode
+  tags:
+    - security
+
+- name: apply security updates
+  command: /bin/yum -y update --security
+  tags:
+    - update
+    - security 
+

@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Benjamin Bertrand
+  company: European Spallation Source ERIC
+  description: |
+    Ansible role to install java (OpenJDK and OpenJFX 1x).
+    Can also install oracle-jdk8 in parallel and maven if requested.
+  license: BSD
+  min_ansible_version: 2.7
+  platforms:
+    - name: CentOS
+      versions:
+        - 7
+dependencies: []
+# List your role dependencies here, one per line.
+# Be sure to remove the '[]' above if you add dependencies
+# to this list.
