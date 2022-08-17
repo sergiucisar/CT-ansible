@@ -1,22 +1,50 @@
 ---
-# tasks file for openliberty
+- name: "Add Artemis group"
+  group:
+    name: "{{ artemis_user.group }}"
+    state: "present"
+    system: yes
 
-- name: include os specific variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution }}.yml"
-      skip: true
-  tags: vars
+- name: "Add Artemis user"
+  user:
+    name: "{{ artemis_user.name }}"
+    group: "{{ artemis_user.group }}"
+    createhome: no
+    state: "present"
+    system: yes
 
-- include_tasks: repos-create.yml
-  loop: "{{ openliberty_repos_create }}"
-- include_tasks: repos-download.yml
-  loop: "{{ openliberty_repos_download }}"
-- include: install.yml
-- include: users.yml
-- include: selinux.yml
-- include: template.yml
-- include: configure.yml
-- include: firewalld.yml
+- name: "Create requires directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ artemis_user.name }}"
+    group: "{{ artemis_user.group }}"
+  with_items:
+    - "{{ artemis_home }}"
+    - "{{ artemis_log_dir }}"
+
+- name: "Download and extract archive"
+  unarchive:
+    src: "{{ artemis_download_url }}"
+    dest: "{{ artemis_install_dir }}"
+    remote_src: yes
+    owner: "{{ artemis_user.name }}"
+    group: "{{ artemis_user.group }}"
+    creates: "{{ artemis_home }}/bin/artemis"
+  notify: restart broker
+
+- name: "Create link"
+  file:
+    src: "{{ artemis_home }}"
+    dest: "{{ artemis_home_symlink }}"
+    state: link
+    owner: "{{ artemis_user.name }}"
+    group: "{{ artemis_user.group }}"
+
+- name: "Create brokers"
+  include_tasks: instance/instance.yml
+  with_items: "{{ artemis_brokers }}"
+  loop_control:
+    loop_var: broker
+

@@ -1,0 +1,10 @@
+---
+# Template configuration files for openliberty
+
+- name: template is copied
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  become: true
+  loop: "{{ openliberty_templates_copy }}"
+  when: openliberty_copy_templates

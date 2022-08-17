@@ -1,15 +1,5 @@
 ---
-# handlers file for openliberty
-
-- name: openliberty service is restarted
+- name: "restart broker"
   service:
-    name: "{{ service_name }}"
+    name: "{{ _broker.name }}"
     state: restarted
-    sleep: 5
-  become: true
-
-- name: reload firewalld
-  service:
-    name: firewalld
-    state: reloaded
-  become: true

@@ -1,0 +1,19 @@
+---
+# defaults file for openliberty
+
+openliberty_packages_state: present
+openliberty_remove_packages: true
+openliberty_enable_service: true
+openliberty_enable_selinux: true
+openliberty_copy_templates: true
+openliberty_firewall_configure: true
+openliberty_firewall_rules:
+  - service: ssh
+  - port: 3389
+openliberty_users:
+  - user: devops
+    group: docker
+openliberty_selinux_booleans:
+  - name: ftp_home_dir
+    state: true
+    persistent: true

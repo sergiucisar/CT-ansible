@@ -1,0 +1,22 @@
+---
+# tasks file for openliberty
+
+- name: include os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+      skip: true
+  tags: vars
+
+- include_tasks: repos-create.yml
+  loop: "{{ openliberty_repos_create }}"
+- include_tasks: repos-download.yml
+  loop: "{{ openliberty_repos_download }}"
+- include: install.yml
+- include: users.yml
+- include: selinux.yml
+- include: template.yml
+- include: configure.yml
+- include: firewalld.yml
