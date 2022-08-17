@@ -1,5 +1,5 @@
 ---
-- name: "restart broker"
+- name: "restart server"
   service:
-    name: "{{ _broker.name }}"
+    name: "{{ server.name }}"
     state: restarted

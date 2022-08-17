@@ -5,61 +5,61 @@ from ansible.module_utils.basic import *
 import os
 
 """
-Ansible module to create artemis broker
+Ansible module to create openliberty server
 (c) 2017, Matthieu Rémy <remy.matthieu@gmail.com>
 """
 
 DOCUMENTATION = '''
 ---
-module: artemis_create
-short_description: Creates an artemis broker.
+module: openliberty_create
+short_description: Creates an openliberty server.
 description:
-    - Creates an artemis broker.
+    - Creates an openliberty server.
 options:
     name:
         description:
-            - broker name
+            - server name
         required: true
         default: null
     path:
         description:
-            - broker path
+            - server path
         required: true
         default: null
     user:
         description:
-            - user name to connect to thebroker
+            - user name to connect to theserver
         required: true
         default: null
     password:
         description:
-            - user password to connect to the broker
+            - user password to connect to the server
         required: true
         default: null
 '''
 
 EXAMPLES = '''
-# Create artemis broker named 'artemis-broker' with a user / password : admin / admin
-- artemis_create: state="present" name="artemis-broker" user="admin" password="admin"
+# Create openliberty server named 'openliberty-server' with a user / password : admin / admin
+- openliberty_create: state="present" name="openliberty-server" user="admin" password="admin"
 '''
 
-CREATE_BROKER_COMMAND = "{0}/bin/artemis create {1}/{2} --user {3} --password {4} --require-login"
+CREATE_server_COMMAND = "{0}/bin/openliberty create {1}/{2} --user {3} --password {4} --require-login"
 
 
-def create_broker(artemis_home, ansible_module, name, path, user, password):
-    """Call artemis bin command to create a broker
+def create_server(openliberty_home, ansible_module, name, path, user, password):
+    """Call openliberty bin command to create a server
 
-    :param artemis_home: artemis home
+    :param openliberty_home: openliberty home
     :param ansible_module: ansible module
-    :param name: broker name
-    :param name: broker path
-    :param user: broker user
-    :param password: broker password
+    :param name: server name
+    :param name: server path
+    :param user: server user
+    :param password: server password
     :return: command, ouput command message, error command message
     """
 
     changed = False
-    cmd = CREATE_BROKER_COMMAND.format(artemis_home, path, name, user, password)
+    cmd = CREATE_server_COMMAND.format(openliberty_home, path, name, user, password)
     out = ""
     err = ""
 
@@ -79,18 +79,18 @@ def main():
         "path": {"required": True, "type": "str"},
         "user": {"required": True, "type": "str"},
         "password": {"required": True, "type": "str", "no_log": True},
-        "artemis_home": {"default": "/opt/artemis", "type": "str"}
+        "openliberty_home": {"default": "/opt/openliberty", "type": "str"}
     }
 
     ansible_module = AnsibleModule(argument_spec=fields)
 
     name = ansible_module.params["name"]
     path = ansible_module.params["path"]
-    artemis_home = ansible_module.params["artemis_home"]
+    openliberty_home = ansible_module.params["openliberty_home"]
     user = ansible_module.params["user"]
     password = ansible_module.params["password"]
 
-    changed, cmd, out, err = create_broker(artemis_home, ansible_module, name, path, user, password)
+    changed, cmd, out, err = create_server(openliberty_home, ansible_module, name, path, user, password)
 
     ansible_module.exit_json(changed=changed, cmd=cmd, name=name, stdout=out, stderr=err)
 

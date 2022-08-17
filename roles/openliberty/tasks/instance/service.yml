@@ -2,15 +2,15 @@
 - name: "Init service var with default values."
   set_fact:
     _service:
-      name: "{{ _broker.name }}"
+      name: "{{ _server.name }}"
       user: "{{ artemis_user.name }}"
       group: "{{ artemis_user.group }}"
-      start: "{{ _broker.path }}/{{ _broker.name }}/bin/artemis-service start"
-      stop: "{{ _broker.path }}/{{ _broker.name }}/bin/artemis-service stop"
+      start: "{{ _server.path }}/{{ _server.name }}/bin/{{ _server.name }} start"
+      stop: "{{ _server.path }}/{{ _server.name }}/bin/{{ _server.name }} stop"
 
 - name: "Install {{ _service.name }} as service"
   template:
-    src: "etc/systemd/artemis.service"
+    src: "etc/systemd/openliberty.service"
     dest: "/etc/systemd/system/{{ _service.name }}.service"
     owner: "{{ _service.user }}"
     group: "{{ _service.group }}"
@@ -19,4 +19,4 @@
   service:
     name: "{{ _service.name }}"
     enabled: yes
-  notify: "restart broker"
+  notify: "restart server"
