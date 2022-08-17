@@ -7,21 +7,21 @@ https_proxy: http://wg.hq.cre.ro:9090
 validate_certs: false 
 
 # Redis configs #
-redis_password: NotWeak123
-redis_logfile: /var/log/redis/redis.log
-redis_conf_file_location: /etc/redis/cluster
-redis_dir: /var/lib/redis
-cluster_enabled: true
-upgrade_redis: false
-redis_version: 6.2.7
+#redis_password: NotWeak123
+#redis_logfile: /var/log/redis/redis.log
+#redis_conf_file_location: /etc/redis/cluster
+#redis_dir: /var/lib/redis
+#cluster_enabled: true
+#upgrade_redis: false
+#redis_version: 6.2.7
 
 #TLS
-redis_tls_port: 6379
-redis_tls_cert_file: 
-redis_tls_key_file: 
-redis_tls_auth_client: yes
-redis_tls_cluster: yes
-redis_tls_replication: yes
+#redis_tls_port: 6379
+#redis_tls_cert_file: 
+#redis_tls_key_file: 
+#redis_tls_auth_client: yes
+#redis_tls_cluster: yes
+#redis_tls_replication: yes
 
 # End of Redis configs #
 
