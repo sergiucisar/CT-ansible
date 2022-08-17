@@ -16,16 +16,18 @@
   ~ limitations under the License.
   -->
 
-<broker xmlns="http://activemq.org/schema">
+<broker xmlns="http://activemq.apache.org/schema">
 
    <jaas-security domain="activemq"/>
+
 
    <!-- artemis.URI.instance is parsed from artemis.instance by the CLI startup.
         This is to avoid situations where you could have spaces or special characters on this URI -->
    <server configuration="${artemis.URI.instance}/etc/broker.xml"/>
 
    <!-- The web server is only bound to localhost by default -->
-   <web bind="http://{{ _broker.web_host }}:{{ _broker.web_port }}" path="web">
+   <web path="web">
+       <binding uri="http://{{ _broker.web_host }}:{{ _broker.web_port }}">
        <app url="jolokia" war="jolokia.war"/>
        <app url="activemq-branding" war="activemq-branding.war"/>
        <app url="artemis-plugin" war="artemis-plugin.war"/>

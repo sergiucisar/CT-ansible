@@ -20,9 +20,9 @@ artemis_home_symlink: "{{ artemis_install_dir }}/artemis"
 
 artemis_brokers:
   - name: "artemis-broker"
-    path: "/opt"
+    path: "{{ artemis_home_symlink }}/bin"
     user: "admin"
-    password: "admin"
+    password: "C3t3l3m4rt3m1s"
 
 artemis_host: "0.0.0.0"
 artemis_port_artemis: 61616

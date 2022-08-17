@@ -43,7 +43,7 @@ EXAMPLES = '''
 - artemis_create: state="present" name="artemis-broker" user="admin" password="admin"
 '''
 
-CREATE_BROKER_COMMAND = "{0}/bin/artemis create {1}/{2} --user {3} --password {4} --require-login"
+CREATE_BROKER_COMMAND = "{0}/bin/artemis create {1}/{2} --user {3} --password {4} --allow-anonymous"
 
 
 def create_broker(artemis_home, ansible_module, name, path, user, password):

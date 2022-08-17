@@ -20,12 +20,14 @@ under the License.
 
 <configuration xmlns="urn:activemq"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xi="http://www.w3.org/2001/XInclude"
                xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
 
    <core xmlns="urn:activemq:core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="urn:activemq:core ">
 
       <name>{{ _broker.host }}</name>
+
 
       <persistence-enabled>true</persistence-enabled>
 
@@ -36,13 +38,26 @@ under the License.
        -->
       <journal-type>{{ _broker.journal_type }}</journal-type>
 
-      <paging-directory>./data/paging</paging-directory>
+      <paging-directory>data/paging</paging-directory>
 
-      <bindings-directory>./data/bindings</bindings-directory>
+      <bindings-directory>data/bindings</bindings-directory>
 
-      <journal-directory>./data/journal</journal-directory>
+      <journal-directory>data/journal</journal-directory>
 
-      <large-messages-directory>./data/large-messages</large-messages-directory>
+      <large-messages-directory>data/large-messages</large-messages-directory>
+
+
+      <!-- if you want to retain your journal uncomment this following configuration.
+
+      This will allow your system to keep 7 days of your data, up to 10G. Tweak it accordingly to your use case and capacity.
+
+      it is recommended to use a separate storage unit from the journal for performance considerations.
+
+      <journal-retention-directory period="7" unit="DAYS" storage-limit="10G">data/retention</journal-retention-directory>
+
+      You can also enable retention by using the argument journal-retention on the `artemis create` command -->
+
+
 
       <journal-datasync>true</journal-datasync>
 
@@ -50,6 +65,27 @@ under the License.
 
       <journal-pool-files>{{ _broker.journal_pool_files }}</journal-pool-files>
 
+      <journal-device-block-size>4096</journal-device-block-size>
+
+      <journal-file-size>10M</journal-file-size>
+
+      <!--
+       This value was determined through a calculation.
+       Your system could perform 31.25 writes per millisecond
+       on the current journal configuration.
+       That translates as a sync write every 32000 nanoseconds.
+
+       Note: If you specify 0 the system will perform writes directly to the disk.
+             We recommend this to be 0 if you are using journalType=MAPPED and journal-datasync=false.
+      -->
+
+      <journal-buffer-timeout>{{ _broker.journal_buffer_timeout }}</journal-buffer-timeout>
+
+
+      <!--
+        When using ASYNCIO, this will determine the writing queue depth for libaio.
+       -->
+      <journal-max-io>4096</journal-max-io>
       <!--
         You can verify the network health of a particular NIC by specifying the <network-check-NIC> element.
          <network-check-NIC>theNicName</network-check-NIC>
@@ -78,14 +114,6 @@ under the License.
 
 
 
-      <!--
-       This value was determined through a calculation.
-       Your system could perform 1 writes per millisecond
-       on the current journal configuration.
-       That translates as a sync write every 1000000 nanoseconds
-      -->
-      <journal-buffer-timeout>{{ _broker.journal_buffer_timeout }}</journal-buffer-timeout>
-
 
       <!-- how often we are looking for how many bytes are being used on the disk in ms -->
       <disk-scan-period>5000</disk-scan-period>
@@ -103,15 +131,20 @@ under the License.
 
       <critical-analyzer-policy>HALT</critical-analyzer-policy>
 
-      <!-- the system will enter into page mode once you hit this limit.
-           This is an estimate in bytes of how much the messages are using in memory
 
-            The system will use half of the available memory (-Xmx) by default for the global-max-size.
-            You may specify a different value here if you need to customize it to your needs.
+      <page-sync-timeout>484000</page-sync-timeout>
 
-            <global-max-size>100Mb</global-max-size>
 
-      -->
+      <!-- the system will enter into page mode once you hit this limit. This is an estimate in bytes of how much the messages are using in memory
+
+      The system will use half of the available memory (-Xmx) by default for the global-max-size.
+      You may specify a different value here if you need to customize it to your needs.
+
+      <global-max-size>100Mb</global-max-size> -->
+
+      <!-- the maximum number of messages accepted before entering full address mode.
+           if global-max-size is specified the full address mode will be specified by whatever hits it first. -->
+      <global-max-messages>-1</global-max-messages>
 
       <acceptors>
 
@@ -160,8 +193,19 @@ under the License.
             <dead-letter-address>DLQ</dead-letter-address>
             <expiry-address>ExpiryQueue</expiry-address>
             <redelivery-delay>0</redelivery-delay>
-            <!-- with -1 only the global-max-size is in use for limiting -->
+
+
+            <!-- if max-size-bytes and max-size-messages were both enabled, the system will enter into paging
+                 based on the first attribute to hits the maximum value -->
+            <!-- limit for the address in bytes, -1 means unlimited -->
             <max-size-bytes>-1</max-size-bytes>
+
+
+            <!-- if max-size-bytes and max-size-messages were both enabled, the system will enter into paging
+                 based on the first attribute to hits the maximum value -->
+            <!-- limit for the address in bytes, -1 means unlimited -->
+            <!-- limit for the address in messages, -1 means unlimited -->
+            <max-size-messages>-1</max-size-messages>
             <message-counter-history-day-limit>10</message-counter-history-day-limit>
             <address-full-policy>PAGE</address-full-policy>
             <auto-create-queues>true</auto-create-queues>
@@ -184,6 +228,21 @@ under the License.
          </address>
 
       </addresses>
+
+
+      <!-- Uncomment the following if you want to use the Standard LoggingActiveMQServerPlugin pluging to log in events
+      <broker-plugins>
+         <broker-plugin class-name="org.apache.activemq.artemis.core.server.plugin.impl.LoggingActiveMQServerPlugin">
+            <property key="LOG_ALL_EVENTS" value="true"/>
+            <property key="LOG_CONNECTION_EVENTS" value="true"/>
+            <property key="LOG_SESSION_EVENTS" value="true"/>
+            <property key="LOG_CONSUMER_EVENTS" value="true"/>
+            <property key="LOG_DELIVERING_EVENTS" value="true"/>
+            <property key="LOG_SENDING_EVENTS" value="true"/>
+            <property key="LOG_INTERNAL_EVENTS" value="true"/>
+         </broker-plugin>
+      </broker-plugins>
+      -->
 
    </core>
 </configuration>
