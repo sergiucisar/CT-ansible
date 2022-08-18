@@ -26,16 +26,13 @@ openliberty_servers:
     password: "C3t3l3ml1b3rty"
 
 openliberty_host: "0.0.0.0"
-openliberty_port_openliberty: 61616
-openliberty_port_amqp: 5672
-openliberty_port_stomp: 61613
-openliberty_port_hornetq: 5445
-openliberty_port_mqtt: 1883
-
 openliberty_web_port: 8161
 openliberty_web_host: localhost
 
-openliberty_log_file: "${openliberty.instance}/log/openliberty.log"
+#openliberty_port_openliberty: 61616
+#openliberty_port_amqp: 5672
+#openliberty_port_stomp: 61613
+#openliberty_port_hornetq: 5445
+#openliberty_port_mqtt: 1883
 
-jolokia_cors:
-  - "*://localhost*"
+openliberty_log_file: "${openliberty.instance}/log/openliberty.log"
