@@ -52,12 +52,11 @@ def create_server(openliberty_home, ansible_module, name, path):
     :param openliberty_home: openliberty home
     :param ansible_module: ansible module
     :param name: server name
-    :param name: server path
     :return: command, ouput command message, error command message
     """
 
     changed = False
-    cmd = CREATE_server_COMMAND.format(openliberty_home, path, name)
+    cmd = CREATE_server_COMMAND.format(openliberty_home, name)
     out = ""
     err = ""
 
@@ -74,17 +73,15 @@ def create_server(openliberty_home, ansible_module, name, path):
 def main():
     fields = {
         "name": {"required": True, "type": "str"},
-        "path": {"required": True, "type": "str"},
         "openliberty_home": {"default": "/opt/openliberty", "type": "str"}
     }
 
     ansible_module = AnsibleModule(argument_spec=fields)
 
     name = ansible_module.params["name"]
-    path = ansible_module.params["path"]
     openliberty_home = ansible_module.params["openliberty_home"]
 
-    changed, cmd, out, err = create_server(openliberty_home, ansible_module, name, path)
+    changed, cmd, out, err = create_server(openliberty_home, ansible_module, name)
 
     ansible_module.exit_json(changed=changed, cmd=cmd, name=name, stdout=out, stderr=err)
 
