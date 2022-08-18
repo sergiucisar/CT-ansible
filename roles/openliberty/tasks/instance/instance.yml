@@ -28,8 +28,8 @@
 #    owner: "{{ openliberty_user.name }}"
 #    group: "{{ openliberty_user.group }}"
 
-- name: "Configure instance"
-  include: configure.yml
+#- name: "Configure instance"
+#  include: configure.yml
 
 #- name: "Install Openliberty server as service"
 #  include_tasks: service.yml
