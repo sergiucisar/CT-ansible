@@ -43,23 +43,21 @@ EXAMPLES = '''
 - openliberty_create: state="present" name="openliberty-server" user="admin" password="admin"
 '''
 
-CREATE_server_COMMAND = "{0}/bin/openliberty create {1}/{2} --user {3} --password {4} --require-login"
+CREATE_server_COMMAND = "{0}/bin/server create {1}"
 
 
-def create_server(openliberty_home, ansible_module, name, path, user, password):
+def create_server(openliberty_home, ansible_module, name, path):
     """Call openliberty bin command to create a server
 
     :param openliberty_home: openliberty home
     :param ansible_module: ansible module
     :param name: server name
     :param name: server path
-    :param user: server user
-    :param password: server password
     :return: command, ouput command message, error command message
     """
 
     changed = False
-    cmd = CREATE_server_COMMAND.format(openliberty_home, path, name, user, password)
+    cmd = CREATE_server_COMMAND.format(openliberty_home, path, name)
     out = ""
     err = ""
 
@@ -77,8 +75,6 @@ def main():
     fields = {
         "name": {"required": True, "type": "str"},
         "path": {"required": True, "type": "str"},
-        "user": {"required": True, "type": "str"},
-        "password": {"required": True, "type": "str", "no_log": True},
         "openliberty_home": {"default": "/opt/openliberty", "type": "str"}
     }
 
@@ -87,10 +83,8 @@ def main():
     name = ansible_module.params["name"]
     path = ansible_module.params["path"]
     openliberty_home = ansible_module.params["openliberty_home"]
-    user = ansible_module.params["user"]
-    password = ansible_module.params["password"]
 
-    changed, cmd, out, err = create_server(openliberty_home, ansible_module, name, path, user, password)
+    changed, cmd, out, err = create_server(openliberty_home, ansible_module, name, path)
 
     ansible_module.exit_json(changed=changed, cmd=cmd, name=name, stdout=out, stderr=err)
 
