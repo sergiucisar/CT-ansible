@@ -32,7 +32,6 @@
     owner: "{{ openliberty_user.name }}"
     group: "{{ openliberty_user.group }}"
     creates: "{{ openliberty_home }}/bin/openliberty"
-  notify: restart server
 
 - name: "Create link"
   file:
