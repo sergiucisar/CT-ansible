@@ -1,0 +1,34 @@
+---
+# Openliberty configs #
+java_install_oracle_jdk8: true
+java_oracle_jdk8_version: "341"
+java_oracle_jdk8_archive: "jdk-8u341-linux-x64.tar.gz"
+# End of Openliberty configs #
+
+openliberty_servers:
+  - name: "creditcalculation"
+    path: "{{ openliberty_home_symlink }}/usr/servers"
+    host: "0.0.0.0"
+    httpPort: "9780"
+    httpsPort: "9743"
+  - name: "numbering"
+    path: "{{ openliberty_home_symlink }}/usr/servers"
+    host: "0.0.0.0"
+    httpPort: "9480"
+    httpsPort: "9443"
+  - name: "subscriptionsignatories"
+    path: "{{ openliberty_home_symlink }}/usr/servers"
+    host: "0.0.0.0"
+    httpPort: "9680"
+    httpsPort: "9643"
+  - name: "notifications"
+    path: "{{ openliberty_home_symlink }}/usr/servers"
+    host: "0.0.0.0"
+    httpPort: "9580"
+    httpsPort: "9543"
+  - name: "subscriptionmanagement"
+    path: "{{ openliberty_home_symlink }}/usr/servers"
+    host: "0.0.0.0"
+    httpPort: "9880"
+    httpsPort: "9843"
+

@@ -6,27 +6,28 @@ ansible_user=dev
 artemis1 ansible_host=10.164.238.147
 
 [openliberty]
-#openliberty1 ansible_host=10.164.238.137
-openliberty2 ansible_host=10.164.238.138
-openliberty3 ansible_host=10.164.238.201
-openliberty4 ansible_host=10.164.238.202
-openliberty5 ansible_host=10.164.134.141
-openliberty6 ansible_host=10.164.134.142
+JAVLUATHQ01 ansible_host=10.164.238.137
+JAVLUATHQ02 ansible_host=10.164.238.138
+JAVLUATHQ02 ansible_host=10.164.238.138
+JAVLUATHQ03 ansible_host=10.164.238.201
+JAVLUATHQ04 ansible_host=10.164.238.202
+JAVLUATHQ05 ansible_host=10.164.134.141
+JAVLUATHQ06 ansible_host=10.164.134.142
 
 #[redis_nodes]
-#redisnode1 ansible_ssh_host=10.164.239.140
-#redisnode2 ansible_ssh_host=10.164.239.141
-#redisnode3 ansible_ssh_host=10.164.239.142
+#redisnode1 ansible_ssh_host=10.164.238.140
+#redisnode2 ansible_ssh_host=10.164.238.141
+#redisnode3 ansible_ssh_host=10.164.238.142
 
 #[master_nodes]
-#masternode1 ansible_ssh_host=10.164.239.140 master_id=0
-#masternode2 ansible_ssh_host=10.164.239.141 master_id=1
-#masternode3 ansible_ssh_host=10.164.239.142 master_id=2
+#masternode1 ansible_ssh_host=10.164.238.140 master_id=0
+#masternode2 ansible_ssh_host=10.164.238.141 master_id=1
+#masternode3 ansible_ssh_host=10.164.238.142 master_id=2
 
 #[slave_nodes]
-#slavenode1 ansible_ssh_host=10.164.239.142 master_id=2
-#slavenode2 ansible_ssh_host=10.164.239.140 master_id=0
-#slavenode3 ansible_ssh_host=10.164.239.141 master_id=1
+#slavenode1 ansible_ssh_host=10.164.238.142 master_id=2
+#slavenode2 ansible_ssh_host=10.164.238.140 master_id=0
+#slavenode3 ansible_ssh_host=10.164.238.141 master_id=1
 
 #[redis_cluster:children]
 #master_nodes
@@ -47,23 +48,22 @@ redis
 sentinel
 
 [redis]
-redismaster1 ansible_ssh_host=10.164.239.140 redis_role=master
-redisslave1 ansible_ssh_host=10.164.239.141 redis_role=slave
+redismaster1 ansible_ssh_host=10.164.238.140 redis_role=master
+redisslave1 ansible_ssh_host=10.164.238.141 redis_role=slave
 
 [redis_nodes]
-redisnode1 ansible_ssh_host=10.164.239.140 redis_role=master
-redisnode2 ansible_ssh_host=10.164.239.141 redis_role=slave
-redisnode3 ansible_ssh_host=10.164.239.142 redis_role=sentinel
+redisnode1 ansible_ssh_host=10.164.238.140 redis_role=master
+redisnode2 ansible_ssh_host=10.164.238.141 redis_role=slave
+redisnode3 ansible_ssh_host=10.164.238.142 redis_role=sentinel
 
 [sentinel]
-sentinel1 ansible_ssh_host=10.164.239.142 redis_role=sentinel
+sentinel1 ansible_ssh_host=10.164.238.142 redis_role=sentinel
 
 [java]
-artemis1 ansible_host=10.164.238.147
-#openliberty1 ansible_host=10.164.238.137
-openliberty2 ansible_host=10.164.238.138
-openliberty3 ansible_host=10.164.238.201
-openliberty4 ansible_host=10.164.238.202
-openliberty5 ansible_host=10.164.134.141
-openliberty6 ansible_host=10.164.134.142
+JAVLUATHQ01 ansible_host=10.164.238.137
+JAVLUATHQ02 ansible_host=10.164.238.138
+JAVLUATHQ03 ansible_host=10.164.238.201
+JAVLUATHQ04 ansible_host=10.164.238.202
+JAVLUATHQ05 ansible_host=10.164.134.141
+JAVLUATHQ06 ansible_host=10.164.134.142
 

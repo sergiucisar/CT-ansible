@@ -1,0 +1,6 @@
+---
+# Openliberty configs #
+java_install_oracle_jdk8: true
+java_oracle_jdk8_version: "341"
+java_oracle_jdk8_archive: "jdk-8u341-linux-x64.tar.gz"
+# End of Openliberty configs #

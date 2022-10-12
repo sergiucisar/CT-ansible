@@ -3,9 +3,6 @@
 http_proxy: http://wg.hq.cre.ro:9090
 https_proxy: http://wg.hq.cre.ro:9090
 
-# Ignore repo cert validation
-validate_certs: false 
-
 # Redis configs #
 #redis_password: NotWeak123
 #redis_logfile: /var/log/redis/redis.log
@@ -31,6 +28,8 @@ artemis_sudo: yes
 # End of Artemins configs #
 
 # Openliberty configs #
-openliberty_enable_service: true
+java_install_oracle_jdk8: true
+java_oracle_jdk8_version: "341"
+java_oracle_jdk8_archive: "jdk-8u341-linux-x64.tar.gz"
 # End of Openliberty configs #
 

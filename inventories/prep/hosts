@@ -1,0 +1,50 @@
+[all:vars]
+ansible_user=dev
+#ansible_python_interpreter=/usr/bin/python3
+
+[artemis]
+AMQMBFXHQ01 ansible_host=10.164.237.147
+AMQSBFXHQ01 ansible_host=10.164.237.148
+AMQMBFXDR01 ansible_host=10.164.237.149
+AMQSBFXDR01 ansible_host=10.164.237.150
+
+[openliberty]
+JAVLBFXHQ01 ansible_host=10.164.237.137
+JAVLBFXDR01 ansible_host=10.164.237.138
+JAVRBFXHQ01 ansible_host=10.164.237.202
+JAVRBFXDR01 ansible_host=10.164.237.203
+JAVPBFXHQ01 ansible_host=10.164.134.71
+JAVPBFXDR01 ansible_host=10.164.134.72
+
+[redis-ha:children]
+redis
+sentinel
+
+[redis]
+RDISBFXHQ01 ansible_ssh_host=10.164.237.140 redis_role=master
+RDISBFXHQ02 ansible_ssh_host=10.164.237.141 redis_role=slave
+RDISBFXDR01 ansible_ssh_host=10.164.237.143 redis_role=slave
+RDISBFXDR02 ansible_ssh_host=10.164.237.144 redis_role=slave
+
+[redis_nodes]
+RDISBFXHQ01 ansible_ssh_host=10.164.237.140 redis_role=master
+RDISBFXHQ02 ansible_ssh_host=10.164.237.141 redis_role=slave
+RDISBFXHQ03 ansible_ssh_host=10.164.237.142 redis_role=sentinel
+RDISBFXDR01 ansible_ssh_host=10.164.237.143 redis_role=slave
+RDISBFXDR02 ansible_ssh_host=10.164.237.144 redis_role=slave
+
+[sentinel]
+RDISBFXHQ03 ansible_ssh_host=10.164.237.142 redis_role=sentinel
+
+[java]
+AMQMBFXHQ01 ansible_host=10.164.237.147
+AMQSBFXHQ01 ansible_host=10.164.237.148
+AMQMBFXDR01 ansible_host=10.164.237.149
+AMQSBFXDR01 ansible_host=10.164.237.150
+JAVLBFXHQ01 ansible_host=10.164.237.137
+JAVLBFXDR01 ansible_host=10.164.237.138
+JAVRBFXHQ01 ansible_host=10.164.237.202
+JAVRBFXDR01 ansible_host=10.164.237.203
+JAVPBFXHQ01 ansible_host=10.164.134.71
+JAVPBFXDR01 ansible_host=10.164.134.72
+

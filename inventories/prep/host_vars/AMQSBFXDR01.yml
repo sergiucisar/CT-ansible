@@ -1,0 +1,5 @@
+---
+artemis_web_port: 8461
+artemis_connector_port: 64616
+artemis_acceptor_port: 64616
+

@@ -1,0 +1,46 @@
+[all:vars]
+ansible_user=dev
+#ansible_python_interpreter=/usr/bin/python3
+
+[artemis]
+AMQMSITHQ01 ansible_host=10.164.239.147
+
+[artemis-cluster]
+AMQTSITHQ01 ansible_host=10.164.239.148
+AMQTSITHQ02 ansible_host=10.164.239.149
+AMQTSITHQ03 ansible_host=10.164.239.150
+AMQTSITHQ04 ansible_host=10.164.239.151
+
+
+[openliberty]
+JAVLSITHQ01 ansible_host=10.164.239.137
+JAVRSITHQ01 ansible_host=10.164.239.201
+JAVPSITHQ01 ansible_host=10.164.134.171
+
+[redis-ha:children]
+redis
+sentinel
+
+[redis]
+RDISSITHQ01 ansible_ssh_host=10.164.239.140 redis_role=master
+RDISSITHQ02 ansible_ssh_host=10.164.239.141 redis_role=slave
+
+[redis_nodes]
+RDISSITHQ01 ansible_ssh_host=10.164.239.140 redis_role=master
+RDISSITHQ02 ansible_ssh_host=10.164.239.141 redis_role=slave
+RDISSITHQ03 ansible_ssh_host=10.164.239.142 redis_role=sentinel
+
+[sentinel]
+RDISSITHQ03 ansible_ssh_host=10.164.239.142 redis_role=sentinel
+
+[java]
+JAVLSITHQ01 ansible_host=10.164.239.137
+JAVRSITHQ01 ansible_host=10.164.239.201
+JAVPSITHQ01 ansible_host=10.164.134.171
+AMQMSITHQ01 ansible_host=10.164.239.147
+AMQTSITHQ01 ansible_host=10.164.239.148
+AMQTSITHQ02 ansible_host=10.164.239.149
+AMQTSITHQ03 ansible_host=10.164.239.150
+AMQTSITHQ04 ansible_host=10.164.239.151
+
+

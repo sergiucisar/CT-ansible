@@ -8,5 +8,8 @@
   roles:
     - { role: artemis, tags: ["never", "artemis"] }
     - { role: openliberty, tags: ["never", "openliberty"] }
-    - { role: redis, tags: ["never", "redis"] }
+      #- { role: redis-cluster, tags: ["never", "redis-cluster"] }
+    - { role: redis-sentinel, tags: ["never", "redis-sentinel"] }
     - { role: java, tags: ["never", "java"] }
+    - { role: java-alternatives, tags: ["never", "java-alternatives"] }
+

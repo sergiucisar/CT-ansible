@@ -1,0 +1,32 @@
+---
+# Setting proxy globally
+http_proxy: http://wg.hq.cre.ro:9090
+https_proxy: http://wg.hq.cre.ro:9090
+
+# Redis configs #
+redis_requirepass: yrxAQsTcEqW9Bc6
+redis_master_auth: master
+
+# SENTINEL CONFIGURATION SETTINGS
+redis_master_name: redis-node-master
+sentinel_requirepass: #password123
+sentinel_deny_scripts_reconfig: yes
+protected_mode: "no"
+supervised_mode: no # set to yes or no to allow
+
+# End of Redis configs #
+
+# Artemis config #
+activemq_services_enable: true
+artemis_sudo: yes
+artemis_cluster: true
+artemis_cluster_username: admin
+artemis_cluster_password: Ls8tz9CFxxMVkUW
+# End of Artemins configs #
+
+# Openliberty configs #
+# java_install_oracle_jdk8: true
+# java_oracle_jdk8_version: "341"
+# java_oracle_jdk8_archive: "jdk-8u341-linux-x64.tar.gz"
+# End of Openliberty configs #
+
