@@ -5,7 +5,6 @@ Description=Starts and stops {{ _service.name }} instance on this system
 Type=forking
 User={{ _service.user }}
 Group={{ _service.group }}
-PIDFile={{ _broker.path }}/{{ _broker.name }}/data/artemis.pid
 ExecStart={{ _service.start }}
 ExecStop={{ _service.stop }}
 
@@ -14,12 +13,3 @@ TimeoutStopSec=20
 
 [Install]
 WantedBy=multi-user.target
-
-#[Service]
-#Type=forking
-#WorkingDirectory=/opt/activemq
-#PIDFile=/opt/activemq/data/activemq.pid
-#ExecStart=/bin/sh -c '. /etc/profile.d/java_env.sh; /opt/activemq/bin/artemis start'
-#ExecStop=/bin/sh -c '. /etc/profile.d/java_env.sh; /opt/activemq/bin/artemis stop'
-
-

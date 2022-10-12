@@ -1,9 +1,10 @@
 ---
 - name: "Configure {{ _broker.name }} broker.xml"
   template:
-    src: "artemis/etc/broker.xml"
+    src: "artemis/etc/broker_cluster.xml"
     dest: "{{ _broker.path }}/{{ _broker.name }}/etc/broker.xml"
   notify: "restart broker"
+  when: artemis_cluster == true 
 
 - name: "Configure {{ _broker.name }} bootstrap.xml"
   template:
@@ -11,17 +12,17 @@
     dest: "{{ _broker.path }}/{{ _broker.name }}/etc/bootstrap.xml"
   notify: "restart broker"
 
-- name: "Ensure ARTEMIS_HOME is correct in artemis.profile"
-  lineinfile:
-    dest: "{{ _broker.path }}/{{ _broker.name }}/etc/artemis.profile"
-    regexp: "^ARTEMIS_HOME"
-    line: "ARTEMIS_HOME='{{ _broker.artemis_home }}'"
+#- name: "Ensure ARTEMIS_HOME is correct in artemis.profile"
+#  lineinfile:
+#    dest: "{{ _broker.path }}/{{ _broker.name }}/etc/artemis.profile"
+#    regexp: "^ARTEMIS_HOME"
+#    line: "ARTEMIS_HOME='{{ _broker.artemis_home }}'"
 
-- name: "Configure {{ _broker.name }} logging.properties"
-  template:
-    src: "artemis/etc/logging.properties"
-    dest: "{{ _broker.path }}/{{ _broker.name }}/etc/logging.properties"
-  notify: "restart broker"
+#- name: "Configure {{ _broker.name }} logging.properties"
+#  template:
+#    src: "artemis/etc/logging.properties"
+#    dest: "{{ _broker.path }}/{{ _broker.name }}/etc/logging.properties"
+#  notify: "restart broker"
 
 - name: "Configure {{ _broker.name }} jolokia-access.xml"
   template:

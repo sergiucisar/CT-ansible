@@ -37,8 +37,8 @@
     owner: "{{ artemis_user.name }}"
     group: "{{ artemis_user.group }}"
 
-    #- name: "Configure instance"
-    #include: configure.yml
+- name: "Configure instance"
+  include: configure.yml
 
   #- name: "Create Artemis sudoers file"
   #template: "src=artemis.sudo.j2 dest=/etc/sudoers.d/artemis owner=root group=root mode=0440"

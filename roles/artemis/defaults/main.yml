@@ -51,9 +51,9 @@ artemis_acceptors:
     url: "tcp://{{ artemis_host }}:{{ artemis_port_mqtt }}?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;protocols=MQTT;useEpoll=true"
 
 artemis_web_port: 8161
-artemis_web_host: localhost
+artemis_web_host: "0.0.0.0"
 
 artemis_log_file: "${artemis.instance}/log/artemis.log"
 
 jolokia_cors:
-  - "*://localhost*"
+  - "*://*"
