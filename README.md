@@ -25,15 +25,15 @@ APP=java; ansible-playbook playbook.yml -i inventories/<ENV> -t $APP -e applicat
 # For Redis please use
 - application_name=redis_nodes
 - -t redis-sentinel
-APP=redis_nodes; ansible-playbook playbook.yml -i inventories/<ENV> -t redis-sentinel -e application_name=$APP -b
+- APP=redis_nodes; ansible-playbook playbook.yml -i inventories/<ENV> -t redis-sentinel -e application_name=$APP -b
 
 # For ActiveMQ please use
 - application_name=
 - -t activemq
-APP=artemis; ansible-playbook playbook.yml -i inventories/<ENV> -t $APP -e application_name=$APP -b
+- APP=artemis; ansible-playbook playbook.yml -i inventories/<ENV> -t $APP -e application_name=$APP -b
 
 # For OpenLiverty please use
 - application_name=openliberty
 - -t openliberty
-APP=openliberty; ansible-playbook playbook.yml -i inventories/<ENV> -t $APP -e application_name=$APP -b
+- APP=openliberty; ansible-playbook playbook.yml -i inventories/<ENV> -t $APP -e application_name=$APP -b
 
